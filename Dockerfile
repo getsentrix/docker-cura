@@ -1,51 +1,25 @@
-# syntax=docker/dockerfile:1
+FROM ghcr.io/linuxserver/baseimage-kasmvnc:ubuntujammy
 
-FROM ghcr.io/linuxserver/baseimage-selkies:debianbookworm
+LABEL maintainer="getsentrix"
+LABEL org.opencontainers.image.source="https://github.com/getsentrix/docker-cura"
 
-# Set version label
-ARG BUILD_DATE
-ARG VERSION
-ARG CURA_VERSION
-LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="thelamer"
-
-# Title
 ENV TITLE=Cura
 
-RUN \
-  echo "**** add icon ****" && \
-  curl -o \
-    /usr/share/selkies/www/icon.png \
-    https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/cura-logo.png && \
-  echo "**** install packages ****" && \
-  apt-get update && \
-  DEBIAN_FRONTEND=noninteractive \
-  apt-get install --no-install-recommends -y \
-    firefox-esr && \
-  echo "**** install cura from appimage ****" && \
-  if [ -z ${CURA_VERSION+x} ]; then \
-    CURA_VERSION=$(curl -sX GET "https://api.github.com/repos/Ultimaker/Cura/releases/latest" \
-    | awk '/tag_name/{print $4;exit}' FS='[""]'); \
-  fi && \
-  cd /tmp && \
-  curl -o \
-    /tmp/cura.app -L \
-    "https://github.com/Ultimaker/Cura/releases/download/${CURA_VERSION}/UltiMaker-Cura-$(echo ${CURA_VERSION} | awk -F'-' '{print $1}')-linux-X64.AppImage" && \
-  chmod +x /tmp/cura.app && \
-  ./cura.app --appimage-extract && \
-  mv squashfs-root /opt/cura && \
-  sed -i 's/QT_QPA_PLATFORMTHEME=xdgdesktopportal/QT_QPA_PLATFORMTHEME=gtk3/' /opt/cura/AppRun.env && \
-  sed -i 's|</applications>|  <application title="UltiMaker Cura" type="normal">\n    <maximized>yes</maximized>\n  </application>\n</applications>|' /etc/xdg/openbox/rc.xml && \
-  echo "**** cleanup ****" && \
-  apt-get autoclean && \
-  rm -rf \
-    /config/.cache \
-    /config/.launchpadlib \
-    /var/lib/apt/lists/* \
-    /var/tmp/* \
-    /tmp/*
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl wget gnupg dbus-x11 ca-certificates xz-utils && \
+    echo "**** install cura from appimage ****" && \
+    CURA_VERSION=$(curl -sX GET "https://api.github.com/repos/Ultimaker/Cura/releases/latest" | awk -F'"' '/tag_name/{print $4;exit}') && \
+    cd /tmp && \
+    curl -L -o cura.app "https://github.com/Ultimaker/Cura/releases/download/${CURA_VERSION}/UltiMaker-Cura-$(echo ${CURA_VERSION} | awk -F'-' '{print $1}')-linux-X64.AppImage" && \
+    chmod +x /tmp/cura.app && \
+    /tmp/cura.app --appimage-extract && \
+    mv squashfs-root /opt/cura && \
+    echo "**** cleanup ****" && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /config/.cache
 
-# Add s6 service to auto-start Cura
+# s6 service that launches Cura automatically
 RUN mkdir -p /etc/services.d/cura && \
     echo '#!/usr/bin/env bash' > /etc/services.d/cura/run && \
     echo 'export DISPLAY=:1' >> /etc/services.d/cura/run && \
