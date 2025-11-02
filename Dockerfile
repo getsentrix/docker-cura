@@ -19,7 +19,14 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /config/.cache
 
-# s6 service that launches Cura automatically
+# Pre-configure Cura to disable crash reports, updates, notifications
+RUN mkdir -p /config/.local/share/cura/5.0 && \
+    echo '[cura]' > /config/.local/share/cura/5.0/cura.cfg && \
+    echo 'analytics_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
+    echo 'crash_reports_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
+    echo 'update_notification_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg
+
+# s6 service that launches Cura automatically with memory limits
 RUN mkdir -p /etc/services.d/cura && \
     echo '#!/usr/bin/env bash' > /etc/services.d/cura/run && \
     echo 'export DISPLAY=:1' >> /etc/services.d/cura/run && \
