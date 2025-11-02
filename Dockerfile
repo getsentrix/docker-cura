@@ -2,14 +2,14 @@
 
 FROM ghcr.io/linuxserver/baseimage-selkies:debianbookworm
 
-# set version label
+# Set version label
 ARG BUILD_DATE
 ARG VERSION
 ARG CURA_VERSION
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="thelamer"
 
-# title
+# Title
 ENV TITLE=Cura
 
 RUN \
@@ -45,8 +45,11 @@ RUN \
     /var/tmp/* \
     /tmp/*
 
-# add local files
-COPY /root /
+# Add s6 service to auto-start Cura
+RUN mkdir -p /etc/services.d/cura && \
+    echo '#!/usr/bin/env bash' > /etc/services.d/cura/run && \
+    echo 'export DISPLAY=:1' >> /etc/services.d/cura/run && \
+    echo 'exec /opt/cura/AppRun' >> /etc/services.d/cura/run && \
+    chmod +x /etc/services.d/cura/run
 
-# ports and volumes
 EXPOSE 3000
