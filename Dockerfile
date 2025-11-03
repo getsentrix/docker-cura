@@ -7,7 +7,7 @@ ENV TITLE=Cura
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    curl wget gnupg dbus-x11 ca-certificates xz-utils && \
+    curl wget gnupg dbus-x11 ca-certificates xz-utils chromium-browser && \
     echo "**** install cura from appimage ****" && \
     CURA_VERSION=$(curl -sX GET "https://api.github.com/repos/Ultimaker/Cura/releases/latest" | awk -F'"' '/tag_name/{print $4;exit}') && \
     cd /tmp && \
@@ -26,7 +26,7 @@ RUN mkdir -p /config/.local/share/cura/5.0 && \
     echo 'crash_reports_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
     echo 'update_notification_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg
 
-# s6 service that launches Cura automatically with memory limits
+# s6 service that launches Cura automatically
 RUN mkdir -p /etc/services.d/cura && \
     echo '#!/usr/bin/env bash' > /etc/services.d/cura/run && \
     echo 'export DISPLAY=:1' >> /etc/services.d/cura/run && \
