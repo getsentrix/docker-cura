@@ -7,7 +7,7 @@ ENV TITLE=Cura
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    curl wget gnupg dbus-x11 ca-certificates xz-utils chromium-browser && \
+    curl wget gnupg dbus-x11 ca-certificates xz-utils w3m && \
     echo "**** install cura from appimage ****" && \
     CURA_VERSION=$(curl -sX GET "https://api.github.com/repos/Ultimaker/Cura/releases/latest" | awk -F'"' '/tag_name/{print $4;exit}') && \
     cd /tmp && \
