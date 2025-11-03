@@ -25,14 +25,5 @@ RUN mkdir -p /config/.local/share/cura/5.0 && \
     echo 'analytics_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
     echo 'crash_reports_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
     echo 'update_notification_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg
-# Create desktop file for Cura
-RUN mkdir -p /usr/share/applications && \
-    echo '[Desktop Entry]' > /usr/share/applications/cura.desktop && \
-    echo 'Type=Application' >> /usr/share/applications/cura.desktop && \
-    echo 'Name=Cura' >> /usr/share/applications/cura.desktop && \
-    echo 'Exec=/opt/cura/AppRun' >> /usr/share/applications/cura.desktop && \
-    echo 'Icon=cura' >> /usr/share/applications/cura.desktop && \
-    echo 'Categories=3DGraphics' >> /usr/share/applications/cura.desktop && \
-    chmod +x /usr/share/applications/cura.desktop
 
 EXPOSE 3000
