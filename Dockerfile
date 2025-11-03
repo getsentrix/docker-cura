@@ -26,4 +26,10 @@ RUN mkdir -p /config/.local/share/cura/5.0 && \
     echo 'crash_reports_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
     echo 'update_notification_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg
 
+# Create autostart script for Cura
+RUN mkdir -p /config/.config/openbox && \
+    echo '#!/bin/bash' > /config/.config/openbox/autostart.sh && \
+    echo '/opt/cura/AppRun &' >> /config/.config/openbox/autostart.sh && \
+    chmod +x /config/.config/openbox/autostart.sh
+
 EXPOSE 3000
