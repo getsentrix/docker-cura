@@ -26,11 +26,4 @@ RUN mkdir -p /config/.local/share/cura/5.0 && \
     echo 'crash_reports_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
     echo 'update_notification_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg
 
-# s6 service that launches Cura automatically with --no-sandbox
-RUN mkdir -p /etc/services.d/cura && \
-    echo '#!/usr/bin/env bash' > /etc/services.d/cura/run && \
-    echo 'export DISPLAY=:1' >> /etc/services.d/cura/run && \
-    echo 'exec /opt/cura/AppRun --no-sandbox' >> /etc/services.d/cura/run && \
-    chmod +x /etc/services.d/cura/run
-
 EXPOSE 3000
