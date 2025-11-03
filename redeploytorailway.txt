@@ -1,1 +1,4 @@
+/opt/cura/AppRun &
+
+
 # Redeploy timestamp 2025-11-2
