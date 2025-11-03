@@ -26,4 +26,7 @@ RUN mkdir -p /config/.local/share/cura/5.0 && \
     echo 'crash_reports_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
     echo 'update_notification_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg
 
+# Create uploads folder for file sharing
+RUN mkdir -p /config/uploads
+
 EXPOSE 3000
