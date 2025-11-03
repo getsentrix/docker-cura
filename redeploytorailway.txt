@@ -1,5 +1,8 @@
 /opt/cura/AppRun &
-thunar /config/uploads
+
+thunar
+
+
 
 
 # Redeploy timestamp 2025-11-2
