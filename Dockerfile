@@ -9,7 +9,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     curl wget gnupg dbus-x11 ca-certificates xz-utils chromium-browser && \
     echo "**** install cura from appimage ****" && \
-    CURA_VERSION=$(curl -sX GET "https://api.github.io/repos/Ultimaker/Cura/releases/latest" | awk -F'"' '/tag_name/{print $4;exit}') && \
+    CURA_VERSION=$(curl -sX GET "https://api.github.com/repos/Ultimaker/Cura/releases/latest" | awk -F'"' '/tag_name/{print $4;exit}') && \
     cd /tmp && \
     curl -L -o cura.app "https://github.com/Ultimaker/Cura/releases/download/${CURA_VERSION}/UltiMaker-Cura-$(echo ${CURA_VERSION} | awk -F'-' '{print $1}')-linux-X64.AppImage" && \
     chmod +x /tmp/cura.app && \
