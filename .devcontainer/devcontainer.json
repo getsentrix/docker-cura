@@ -1,27 +1,10 @@
 {
-  "name": "Cura Docker Environment",
-  "image": "mcr.microsoft.com/devcontainers/ubuntu:jammy",
+  "name": "Cura Docker Dev",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   "forwardPorts": [3000, 3001],
-  "portsAttributes": {
-    "3000": {
-      "label": "Cura HTTP",
-      "onAutoForward": "openBrowser"
-    },
-    "3001": {
-      "label": "Cura HTTPS",
-      "onAutoForward": "ignore"
-    }
-  },
-  "postCreateCommand": "docker pull getsentrix/docker-cura:latest",
-  "remoteUser": "codespace",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-azuretools.vscode-docker"
-      ]
-    }
-  }
+  "postCreateCommand": "docker ps",
+  "remoteUser": "root"
 }
