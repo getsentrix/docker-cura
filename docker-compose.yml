@@ -2,16 +2,22 @@ version: '3.8'
 
 services:
   cura:
-    build: .
+    image: getsentrix/docker-cura:latest
     container_name: cura
+    ports:
+      - "3000:3000"
+      - "3001:3001"
     environment:
-      - PUID=1000
-      - PGID=1000
+      - CUSTOM_USER=296212
+      - CUSTOM_PASSWORD=G2025-2379
+      - CUSTOM_PORT=3000
+      - CUSTOM_HTTPS_PORT=3001
       - TZ=America/Chicago
     volumes:
-      - /config
-    ports:
-      - 3000:3000
-      - 3001:3001
-    shm_size: 2gb
+      - cura-config:/root/.local/share/cura
+      - cura-models:/root/models
     restart: unless-stopped
+
+volumes:
+  cura-config:
+  cura-models:
