@@ -1,10 +1,10 @@
 {
-  "name": "Cura Docker Dev",
+  "name": "Cura Docker",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   "forwardPorts": [3000, 3001],
-  "postCreateCommand": "docker ps",
-  "remoteUser": "root"
+  "remoteUser": "root",
+  "postCreateCommand": "apt-get update && apt-get install -y ca-certificates curl"
 }
