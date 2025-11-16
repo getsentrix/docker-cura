@@ -3,7 +3,12 @@ FROM ghcr.io/linuxserver/baseimage-kasmvnc:ubuntujammy
 LABEL maintainer="getsentrix"
 LABEL org.opencontainers.image.source="https://github.com/getsentrix/docker-cura"
 
-ENV TITLE=Cura
+ENV TITLE=Cura \
+    SELKIES_ENCODER="jpeg" \
+    SELKIES_FRAMERATE="8-30" \
+    SELKIES_JPEG_QUALITY="50-75" \
+    SELKIES_MANUAL_WIDTH="1024" \
+    SELKIES_MANUAL_HEIGHT="768"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -24,7 +29,8 @@ RUN mkdir -p /config/.local/share/cura/5.0 && \
     echo '[cura]' > /config/.local/share/cura/5.0/cura.cfg && \
     echo 'analytics_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
     echo 'crash_reports_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
-    echo 'update_notification_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg
+    echo 'update_notification_enabled = False' >> /config/.local/share/cura/5.0/cura.cfg && \
+    echo 'check_for_updates = False' >> /config/.local/share/cura/5.0/cura.cfg
 
 # Create uploads folder for file sharing
 RUN mkdir -p /config/uploads
