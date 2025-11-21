@@ -3,6 +3,7 @@ FROM ghcr.io/linuxserver/baseimage-kasmvnc:ubuntujammy
 LABEL maintainer="getsentrix"
 LABEL org.opencontainers.image.source="https://github.com/getsentrix/docker-cura"
 
+# Optimized defaults for Railway free tier
 ENV TITLE=Cura \
     SELKIES_ENCODER="jpeg" \
     SELKIES_FRAMERATE="10-20" \
@@ -10,6 +11,8 @@ ENV TITLE=Cura \
     SELKIES_MANUAL_WIDTH="1024" \
     SELKIES_MANUAL_HEIGHT="768"
 
+# REMOVED 'epiphany-browser' from this list to save RAM
+# KEPT 'thunar' for file management
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     curl wget gnupg dbus-x11 ca-certificates xz-utils thunar && \
