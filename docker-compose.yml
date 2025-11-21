@@ -14,16 +14,17 @@ services:
       - CUSTOM_HTTPS_PORT=3001
       - TZ=America/Chicago
       - SELKIES_ENCODER=jpeg
-      - SELKIES_FRAMERATE=8-15
-      - SELKIES_JPEG_QUALITY=55
+      - SELKIES_FRAMERATE=10-20
+      - SELKIES_JPEG_QUALITY=60
       - SELKIES_MANUAL_WIDTH=1024
       - SELKIES_MANUAL_HEIGHT=768
+      - SELKIES_USE_CPU=true
     volumes:
       - cura-config:/root/.local/share/cura
       - cura-models:/root/models
-    shm_size: '512mb'          # Lower shared memory for VNC subsystem
-    mem_limit: "900m"          # Keep RAM under 1GB (Railway limit)
-    cpus: "1.9"                # Use most of your CPU quota, leave some for Railway overhead
+    shm_size: '512mb'
+    mem_limit: "920m"
+    cpus: "1.9"
     restart: unless-stopped
 
 volumes:
