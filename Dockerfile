@@ -5,14 +5,14 @@ LABEL org.opencontainers.image.source="https://github.com/getsentrix/docker-cura
 
 ENV TITLE=Cura \
     SELKIES_ENCODER="jpeg" \
-    SELKIES_FRAMERATE="8-30" \
-    SELKIES_JPEG_QUALITY="50-75" \
+    SELKIES_FRAMERATE="10-20" \
+    SELKIES_JPEG_QUALITY="60" \
     SELKIES_MANUAL_WIDTH="1024" \
     SELKIES_MANUAL_HEIGHT="768"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    curl wget gnupg dbus-x11 ca-certificates xz-utils epiphany-browser thunar && \
+    curl wget gnupg dbus-x11 ca-certificates xz-utils thunar && \
     echo "**** install cura from appimage ****" && \
     CURA_VERSION=$(curl -sX GET "https://api.github.com/repos/Ultimaker/Cura/releases/latest" | awk -F'"' '/tag_name/{print $4;exit}') && \
     cd /tmp && \
